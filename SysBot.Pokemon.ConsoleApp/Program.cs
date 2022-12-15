@@ -11,7 +11,7 @@ namespace SysBot.Pokemon.ConsoleApp
 {
     public static class Program
     {
-        private static string ConfigPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"config.json"); // needed for systemctl service on linux for mono to find config.json 
+        private static string ConfigPath = @"config.json";
 
         private static void Main(string[] args)
         {
@@ -33,7 +33,7 @@ namespace SysBot.Pokemon.ConsoleApp
                 BotContainer.RunBots(cfg);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception e)
+            catch
 #pragma warning restore CA1031 // Do not catch general exception types
             {
                 Console.WriteLine("Unable to start bots with saved config file. Please copy your config from the WinForms project or delete it and reconfigure.");

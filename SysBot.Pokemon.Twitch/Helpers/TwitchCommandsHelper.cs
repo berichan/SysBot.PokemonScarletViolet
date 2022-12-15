@@ -31,7 +31,6 @@ namespace SysBot.Pokemon.Twitch
             {
                 PKM? pkm = TryFetchFromDistributeDirectory(setstring.Trim());
                 string result = string.Empty;
-                RegenTemplate? regT = null;
 
                 if (pkm == null)
                 {
