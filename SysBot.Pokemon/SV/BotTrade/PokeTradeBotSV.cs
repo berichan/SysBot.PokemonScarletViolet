@@ -646,9 +646,8 @@ namespace SysBot.Pokemon
 
             await Task.Delay(0_500, token).ConfigureAwait(false);
             await Click(PLUS, 1_000, token).ConfigureAwait(false);
-            await Click(A, 0_500, token).ConfigureAwait(false);
-            await Click(A, 0_500, token).ConfigureAwait(false);
-            await Click(A, 0_500, token).ConfigureAwait(false);
+            for (int i = 0; i < 5; ++i)
+                await Click(A, 0_500, token).ConfigureAwait(false);
 
             int checks = 3;
             while (!await IsSearching(token).ConfigureAwait(false))
