@@ -7,6 +7,8 @@ If all you want is to request Pokémon, please go there!
 This is a custom sysbot, the Scarlet/Violet functionality of this bot is not created or supported by the PKHeX developers, please do not pester them!
 [Read the official startup instructions](https://github.com/kwsch/SysBot.NET/wiki/Bot-Startup-Details) if you've never hosted a switch sysbot.
 
+[Download the latest build of this bot here](https://berichan.github.io/GetNHSE?sv)
+
 ## Support Discord:
 
 For support on setting up your own instance of this SysBot, feel free to join the discord! (This sysbot isn't supported by the PKHeX-Projects discord, please do not ask for help there or bother them with questions related to this bot.)

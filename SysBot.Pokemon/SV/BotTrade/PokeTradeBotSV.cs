@@ -66,6 +66,8 @@ namespace SysBot.Pokemon
 
                 if (await IsKeyboardOpen(token).ConfigureAwait(false) && await IsConnected(token).ConfigureAwait(false))
                     await EstablishOverworldPokePortalMinimum(token, true).ConfigureAwait(false);
+                else
+                    await ReturnToOverworld(token).ConfigureAwait(false);
 
                 await RestartGameIfCantTrade(false, null, token).ConfigureAwait(false);
 
