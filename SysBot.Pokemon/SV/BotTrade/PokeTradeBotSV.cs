@@ -567,8 +567,6 @@ namespace SysBot.Pokemon
                 return PokeTradeResult.NoPokemonDetected;
             }
 
-            poke.SendNotification(this, received, $"You sent me {(Species)received.Species} for {(Species)toSend.Species}!");
-
             // As long as we got rid of our inject in b1s1, assume the trade went through.
             Log("User completed the trade.");
             poke.TradeFinished(this, received);
