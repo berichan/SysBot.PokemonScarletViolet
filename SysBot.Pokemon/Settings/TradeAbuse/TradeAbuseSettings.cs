@@ -54,5 +54,8 @@ namespace SysBot.Pokemon
 
         [Category(Monitoring), Description("Should we allow users who use multiple accounts to trade?")]
         public bool AllowMultiAccountUse { get; set; } = false;
+
+        [Category(Monitoring), Description("Should we allow users who are globally blacklisted for softbanning bots? Toggle this value at your own risk, if your bot gets softbanned it cannot do anything for 30 minutes.")]
+        public bool AllowGloballyBlacklistedAccounts { get; set; } = false;
     }
 }
