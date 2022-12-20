@@ -571,6 +571,9 @@ namespace SysBot.Pokemon
             Log("User completed the trade.");
             poke.TradeFinished(this, received);
 
+            if (DumpSetting.Dump && !string.IsNullOrEmpty(DumpSetting.DumpFolder))
+                DumpPokemon(DumpSetting.DumpFolder, "trade", received);
+
             await AttemptGetBackToPokePortal(token).ConfigureAwait(false);
             return PokeTradeResult.Success;
         }
