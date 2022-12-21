@@ -763,6 +763,10 @@ namespace SysBot.Pokemon
                 pkmChanged = await ReadUntilChanged(offset, oldEC, 15_000, 0_200, false, true, token).ConfigureAwait(false);
             }
 
+            // Dump if required
+            if (DumpSetting.Dump)
+                DumpPokemon(DumpSetting.DumpFolder, "clone", offered);
+
             // resolve pointer for any shifts
             offset = await SwitchConnection.PointerAll(LinkTradePartnerPokemonPointer, token).ConfigureAwait(false);
             var pk2 = await ReadUntilPresent(offset, 3_000, 1_000, BoxFormatSlotSize, token).ConfigureAwait(false);
