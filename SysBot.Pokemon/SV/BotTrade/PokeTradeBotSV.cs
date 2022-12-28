@@ -476,9 +476,6 @@ namespace SysBot.Pokemon
 
             Log($"Found trading partner: {tradePartner.TrainerName}-{tradePartner.TID}-{tradePartner.SID} ({poke.Trainer.TrainerName}) (NID: {tradePartnerNID}) [CODE:{poke.Code:00000000}]");
 
-            if (!AbuseSettings.AllowGloballyBlacklistedAccounts && BadUserList.Users.Contains(tradePartnerNID))
-                return PokeTradeResult.SuspiciousActivity;
-
             poke.SendNotification(this, $"Found Trading Partner: {tradePartner.TrainerName}. TID: {tradePartner.TID} SID: {tradePartner.SID} Waiting for a Pokémon...");
 
             if (poke.Type == PokeTradeType.Dump)
