@@ -39,27 +39,11 @@ namespace SysBot.Pokemon
             while (msWaited < waitms)
             {
                 var pk = await ReadPokemonPointer(jumps, size, token).ConfigureAwait(false);
-                if (pk.Species != 0)
-                {
-                    if (pk.ChecksumValid)
-                        return pk;
-                    else if (pk is PK9 g9)
-                    {
-                        Log($"bad checksum: {g9.Checksum}= {BitConverter.ToUInt64(pk.DecryptedPartyData, 0):X16}{BitConverter.ToUInt64(pk.DecryptedPartyData, 16):X16}{BitConverter.ToUInt64(pk.DecryptedPartyData, 32):X16}{BitConverter.ToUInt64(pk.DecryptedPartyData, 48):X16}");
-                    }
-                }
+                if (pk.Species != 0 && pk.ChecksumValid)
+                    return pk;
                 await Task.Delay(waitInterval, token).ConfigureAwait(false);
                 msWaited += waitInterval;
             }
-
-            // try the direct approach
-            var pk9 = await SwitchConnection.PointerPeek(size, jumps, token).ConfigureAwait(false);
-            if (BitConverter.ToUInt32(pk9, 0) != 0)
-            {
-                Log("value valid");
-                return new PK9(pk9) as T;
-            }
-
             return null;
         }
 

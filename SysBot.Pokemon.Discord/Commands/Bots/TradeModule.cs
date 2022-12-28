@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SysBot.Base;
 using PKHeX.Core.AutoMod;
+using System.Data.SqlTypes;
 
 namespace SysBot.Pokemon.Discord
 {
@@ -176,6 +177,47 @@ namespace SysBot.Pokemon.Discord
             }
 
             await AddTradeToQueueAsync(code, usr.Username, pk, sig, usr).ConfigureAwait(false);
+        }
+
+        [Command("giveaway")]
+        [Alias("ga", "preset")]
+        [Summary("Makes the bot trade you a Pokémon from the giveaway pool.")]
+        [RequireQueueRole(nameof(DiscordManager.RolesTrade))]
+        public async Task TradeGiveawayAsync([Summary("Trade Code")] int code, [Summary("Showdown Set")][Remainder] string content)
+        {
+            try
+            {
+                PKM? pk = PokemonPool<T>.TryFetchFromDistributeDirectory(SysCord<T>.Runner.Hub.Config.Folder.DistributeFolder, content.Trim());
+                if (pk == null || pk is not T pkSend)
+                {
+                    var msg = $"Oops! Unable to find giveaway preset: `{content}`";
+                    await ReplyAsync(msg).ConfigureAwait(false);
+                    return;
+                }
+
+                pk.ResetPartyStats();
+
+                var sig = Context.User.GetFavor();
+                await AddTradeToQueueAsync(code, Context.User.Username, pkSend, sig, Context.User).ConfigureAwait(false);
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                LogUtil.LogSafe(ex, nameof(TradeModule<T>));
+                var msg = $"Oops! An unexpected problem happened with this preset:\n```{string.Join("\n", content)}```";
+                await ReplyAsync(msg).ConfigureAwait(false);
+            }
+        }
+
+        [Command("giveaway")]
+        [Alias("ga", "preset")]
+        [Summary("Makes the bot trade you a Pokémon from the giveaway pool.")]
+        [RequireQueueRole(nameof(DiscordManager.RolesTrade))]
+        public async Task TradeGiveawayAsync([Summary("Showdown Set")][Remainder] string content)
+        {
+            var code = Info.GetRandomTradeCode();
+            await TradeGiveawayAsync(code, content).ConfigureAwait(false);
         }
 
         private static T? GetRequest(Download<PKM> dl)

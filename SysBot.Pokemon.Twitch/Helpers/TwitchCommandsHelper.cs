@@ -29,7 +29,7 @@ namespace SysBot.Pokemon.Twitch
 
             try
             {
-                PKM? pkm = TryFetchFromDistributeDirectory(setstring.Trim());
+                PKM? pkm = PokemonPool<T>.TryFetchFromDistributeDirectory(TwitchBot<T>.Hub.Config.Folder.DistributeFolder, setstring.Trim());
                 string result = string.Empty;
 
                 if (pkm == null)
@@ -126,41 +126,6 @@ namespace SysBot.Pokemon.Twitch
             return detail == null
                 ? "Sorry, you are not currently in the queue."
                 : $"Your trade code is {detail.Trade.Code:0000 0000}";
-        }
-
-        public static T? TryFetchFromDistributeDirectory(string set)
-        {
-            try
-            {
-                var folder = TwitchBot<T>.Info.Hub.Config.Folder.DistributeFolder;
-                if (!Directory.Exists(folder))
-                    return null;
-
-                var path = Path.Combine(folder, set);
-                if (!File.Exists(path))
-                    path += ".pk9";
-                if (!File.Exists(path))
-                    return null;
-
-                var data = File.ReadAllBytes(path);
-                var prefer = EntityFileExtension.GetContextFromExtension(path, EntityContext.None);
-                var pkm = EntityFormat.GetFromBytes(data, prefer);
-                if (pkm is null)
-                    return null;
-                if (pkm is not T)
-                    pkm = EntityConverter.ConvertToType(pkm, typeof(T), out _);
-                if (pkm is not T dest)
-                    return null;
-
-                if (!dest.CanBeTraded())
-                    return null;
-
-                // Legality analysis happens outside of this function
-                return dest;
-            }
-            catch (Exception e) { LogUtil.LogSafe(e, nameof(TwitchCommandsHelper<T>)); }
-
-            return null;
         }
     }
 }
