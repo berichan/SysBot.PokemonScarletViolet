@@ -24,7 +24,6 @@ namespace SysBot.Pokemon
         public override bool SupportsRoutine(PokeRoutineType type) => type switch
         {
             PokeRoutineType.FlexTrade or PokeRoutineType.Idle
-                or PokeRoutineType.SurpriseTrade
                 or PokeRoutineType.LinkTrade
                 or PokeRoutineType.Clone
                 or PokeRoutineType.Dump

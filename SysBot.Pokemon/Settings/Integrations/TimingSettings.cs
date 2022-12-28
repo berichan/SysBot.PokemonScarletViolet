@@ -63,10 +63,10 @@ namespace SysBot.Pokemon
         public int ExtraTimeOpenPokePortal { get; set; } = 500;
 
         [Category(OpenGame), Description("[SV] Extra time in milliseconds to wait for the trade animation.")]
-        public int ExtraTimeTradeAnimation { get; set; } = 10000;
+        public int ExtraTimeTradeAnimation { get; set; } = 5000;
 
         [Category(Misc), Description("Time to wait after opening the keyboard for code entry during trades.")]
-        public int ExtraTimeOpenCodeEntry { get; set; } = 2500;
+        public int ExtraTimeOpenCodeEntry { get; set; } = 1000;
 
         [Category(Misc), Description("Time to wait after each keypress when navigating Switch menus or entering Link Code.")]
         public int KeypressTime { get; set; } = 200;
