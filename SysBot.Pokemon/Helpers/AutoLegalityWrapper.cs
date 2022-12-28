@@ -129,13 +129,6 @@ namespace SysBot.Pokemon
             return result;
         }
 
-        public static async Task<(PKM, string)> GetLegalAsync(this ITrainerInfo sav, IBattleTemplate set)
-        {
-            (var result, var type) = await sav.GetLegalFromSetAsync(set);
-            var res = type.ToString();
-            return (result, res);
-        }
-
         public static string GetLegalizationHint(IBattleTemplate set, ITrainerInfo sav, PKM pk) => set.SetAnalysis(sav, pk);
         public static PKM LegalizePokemon(this PKM pk) => pk.Legalize();
         public static IBattleTemplate GetTemplate(ShowdownSet set) => new RegenTemplate(set);
