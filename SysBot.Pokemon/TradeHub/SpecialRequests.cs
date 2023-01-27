@@ -21,8 +21,8 @@ namespace SysBot.Pokemon
             FailReturn
         }
 
-        private static string NamePath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"0names.txt"); // needed for systemctl service on linux for mono to find
-        private static string ItemPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"0items.txt"); // needed for systemctl service on linux for mono to find
+        private static string NamePath = @"0names.txt"; // needed for systemctl service on linux for mono to find
+        private static string ItemPath = @"0items.txt"; // needed for systemctl service on linux for mono to find
         private static object _sync = new object();
         private static object _sync2 = new object();
         static List<string> AlwaysNames { get => collectNames(); }

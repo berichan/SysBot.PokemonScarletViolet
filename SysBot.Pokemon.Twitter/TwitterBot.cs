@@ -99,7 +99,7 @@ namespace SysBot.Pokemon.Twitter
             return false;
         }
 
-        private void HandleTwitterException(object sender, ITwitterException e)
+        private void HandleTwitterException(object? sender, ITwitterException e)
         {
             LogUtil.LogError($"({e.CreationDate}) {e.Content}", nameof(TwitterBot));
         }

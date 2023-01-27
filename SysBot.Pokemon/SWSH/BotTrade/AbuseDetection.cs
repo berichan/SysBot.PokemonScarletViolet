@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -44,8 +44,6 @@ namespace SysBot.Pokemon
 
         private const string PathInfo = "newuserinfo.txt";
         private const string PathBans = "newglobalban.txt";
-
-        private static readonly WebClient webClient = new WebClient();
 
         public List<HashNIDIdentifier<T>> UserInfoList { get; private set; } = new();
         public List<HashNIDIdentifier<T>> GlobalBanList { get; private set; } = new();
@@ -107,8 +105,23 @@ namespace SysBot.Pokemon
 
             void DownloadAndSetFile()
             {
-                var bytes = webClient.DownloadData(BanListUri);
-                File.WriteAllBytes(PathBans, bytes);
+                using (var httpClient = new HttpClient())
+                {
+                    var GetTask = httpClient.GetAsync(BanListUri);
+                    GetTask.Wait(3_000);
+
+                    if (!GetTask.Result.IsSuccessStatusCode)
+                    {
+                        LogUtil.LogError("Could not download banlist.", nameof(AbuseDetection<T>));
+                        return;
+                    }
+
+                    using (var fs = new FileStream(PathBans, FileMode.CreateNew))
+                    {
+                        var ResponseTask = GetTask.Result.Content.CopyToAsync(fs);
+                        ResponseTask.Wait(3_000);
+                    }
+                }
                 LoadBanList();
             }
 
