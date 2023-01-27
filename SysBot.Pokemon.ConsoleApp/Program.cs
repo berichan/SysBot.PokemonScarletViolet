@@ -32,9 +32,9 @@ namespace SysBot.Pokemon.ConsoleApp
                 PokeTradeBot.SeedChecker = new Z3SeedSearchHandler<PK8>();
                 BotContainer.RunBots(cfg);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
+
             catch
-#pragma warning restore CA1031 // Do not catch general exception types
+
             {
                 Console.WriteLine("Unable to start bots with saved config file. Please copy your config from the WinForms project or delete it and reconfigure.");
                 Console.ReadKey();

@@ -62,9 +62,9 @@ namespace SysBot.Pokemon
                 Log($"Starting main {nameof(PokeTradeBot)} loop.");
                 await InnerLoop(sav, token).ConfigureAwait(false);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
+
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
+
             {
                 Log(e.Message);
             }
@@ -184,9 +184,9 @@ namespace SysBot.Pokemon
                 HandleAbortedTrade(detail, type, priority, result);
                 throw; // let this interrupt the trade loop. re-entering the trade loop will recheck the connection.
             }
-#pragma warning disable CA1031 // Do not catch general exception types
+
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
+
             {
                 Log(e.Message);
                 result = PokeTradeResult.Exception_NPM;
@@ -892,9 +892,9 @@ namespace SysBot.Pokemon
                 {
                     ReplyWithSeedCheckResults(detail, pk);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
+
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
+
                 {
                     detail.SendNotification(this, $"Unable to calculate seeds: {ex.Message}\r\n{ex.StackTrace}");
                 }

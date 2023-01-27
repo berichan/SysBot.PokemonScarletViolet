@@ -65,9 +65,9 @@ namespace SysBot.Pokemon.Discord
                 {
                     c.SendMessageAsync(GetMessage(msg, identity));
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
+
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
+
                 {
                     LogUtil.LogSafe(ex, identity);
                 }

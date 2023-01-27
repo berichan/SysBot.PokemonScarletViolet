@@ -44,9 +44,9 @@ namespace SysBot.Pokemon.YouTube
                     if (await client.Connect().ConfigureAwait(false))
                         await Task.Delay(-1).ConfigureAwait(false);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
+
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
+
                 {
                     LogUtil.LogError(ex.Message, nameof(YouTubeBot<T>));
                 }
@@ -116,12 +116,12 @@ namespace SysBot.Pokemon.YouTube
                         return;
                     client.SendMessage(response);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
+
                 catch
                 {
                     // ignored
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
+
             }
         }
     }

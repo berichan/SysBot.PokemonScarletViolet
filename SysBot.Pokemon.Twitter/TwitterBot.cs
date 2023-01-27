@@ -161,9 +161,9 @@ namespace SysBot.Pokemon.Twitter
                 var _ = AddToTradeQueue(user.Pokemon, code, messagingUser, RequestSignificance.None, PokeRoutineType.LinkTrade, out string message);
                 SendDirectMessage(message, messagingUser.Id);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
+
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
+
             {
                 LogUtil.LogError($"{ex.Message}", nameof(TwitterBot));
                 return false;

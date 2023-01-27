@@ -74,9 +74,9 @@ namespace SysBot.Pokemon
                 Log($"Starting main {nameof(PokeTradeBotSV)} loop.");
                 await InnerLoop(sav, token).ConfigureAwait(false);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
+
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
+
             {
                 Log(e.Message);
             }
