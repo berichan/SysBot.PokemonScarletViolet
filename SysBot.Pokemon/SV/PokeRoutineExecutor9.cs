@@ -80,8 +80,8 @@ namespace SysBot.Pokemon
             var saveIDOffset = await SwitchConnection.PointerAll(MyStatusPointer, token).ConfigureAwait(false);
             OurTrainer = await FetchIDFromOffset(saveIDOffset, token).ConfigureAwait(false);
 
-            sav.TrainerID7 = OurTrainer.TID7;
-            sav.TrainerSID7 = OurTrainer.SID7;
+            sav.TrainerTID7 = (uint)OurTrainer.TID7;
+            sav.TrainerSID7 = (uint)OurTrainer.SID7;
             sav.OT = OurTrainer.TrainerName;
             sav.Language = OurTrainer.Language;
             sav.Gender = OurTrainer.Gender;
