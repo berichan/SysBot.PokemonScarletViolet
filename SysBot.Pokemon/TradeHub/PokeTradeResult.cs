@@ -19,7 +19,7 @@
         // Anything below here should be retried once if possible.
         RoutineCancel,
         ExceptionConnection,
-        Exception_NPM,
+        ExceptionInternal,
         RecoverStart,
         RecoverPostLinkCode,
         RecoverOpenBox,

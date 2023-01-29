@@ -199,7 +199,7 @@ namespace SysBot.Pokemon
             catch (Exception e)
             {
                 Log(e.Message);
-                result = PokeTradeResult.Exception_NPM;
+                result = PokeTradeResult.ExceptionInternal;
             }
 
             HandleAbortedTrade(detail, type, priority, result);
