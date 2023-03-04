@@ -38,6 +38,9 @@ namespace SysBot.Pokemon
         [Category(TradeConfig), Description("Max amount of time pressing A to wait for a trade to end before trying to exit to overworld.")]
         public int TradeAnimationMaxDelaySeconds { get; set; } = 90; // 150 maybe
 
+        [Category(TradeConfig), Description("If you've not bought DLC, we need another up press at the X menu.")]
+        public bool HasBoughtSVDLC { get; set; } = false;
+
         /// <summary>
         /// Gets a random trade code based on the range settings.
         /// </summary>
