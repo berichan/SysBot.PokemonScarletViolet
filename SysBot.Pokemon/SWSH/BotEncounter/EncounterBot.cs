@@ -71,7 +71,7 @@ namespace SysBot.Pokemon
             var print = Hub.Config.StopConditions.GetPrintName(pk);
             Log($"Encounter: {encounterCount}{Environment.NewLine}{print}{Environment.NewLine}");
 
-            var legendary = Legal.Legends.Contains(pk.Species) || Legal.SubLegends.Contains(pk.Species);
+            var legendary = SpeciesCategory.IsLegendary(pk.Species) || SpeciesCategory.IsMythical(pk.Species) || SpeciesCategory.IsSubLegendary(pk.Species);
             if (legendary)
                 Settings.AddCompletedLegends();
             else
