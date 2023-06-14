@@ -1,0 +1,357 @@
+{
+  "Mode": 4,
+  "Hub": {
+    "Shuffled": false,
+    "ConsoleLanguage": 0,
+    "Queues": {
+      "CanQueue": true,
+      "MaxQueueCount": 100,
+      "CanDequeueIfProcessing": false,
+      "FlexMode": 1,
+      "QueueToggleMode": 1,
+      "ThresholdUnlock": 0,
+      "ThresholdLock": 30,
+      "IntervalOpenFor": 300,
+      "IntervalCloseFor": 900,
+      "YieldMultCountTrade": 100,
+      "YieldMultCountSeedCheck": 100,
+      "YieldMultCountClone": 100,
+      "YieldMultCountDump": 100,
+      "YieldMultWait": 1,
+      "YieldMultWaitTrade": 1,
+      "YieldMultWaitSeedCheck": 1,
+      "YieldMultWaitClone": 1,
+      "YieldMultWaitDump": 1,
+      "EstimatedDelayFactor": 2.0,
+      "ReminderQueueCountStart": 150,
+      "ReminderAtPosition": 120
+    },
+    "Timings": {
+      "ExtraTimeLoadProfile": 0,
+      "ExtraTimeCheckDLC": 0,
+      "ExtraTimeLoadGame": 5000,
+      "ExtraTimeLoadOverworld": 3000,
+      "ExtraTimeReturnHome": 0,
+      "ExtraTimeCloseGame": 0,
+      "ExtraTimeLoadRaid": 0,
+      "ExtraTimeOpenRaid": 0,
+      "ExtraTimeEndRaid": 0,
+      "ExtraTimeAddFriend": 0,
+      "ExtraTimeDeleteFriend": 0,
+      "ExtraTimeReconnectYComm": 0,
+      "ExtraTimeLeaveUnionRoom": 1000,
+      "ExtraTimeOpenYMenu": 500,
+      "ExtraTimeJoinUnionRoom": 500,
+      "ExtraTimeOpenPokePortal": 500,
+      "ExtraTimeTradeAnimation": 5000,
+      "ExtraTimeOpenCodeEntry": 1000,
+      "KeypressTime": 200,
+      "AvoidSystemUpdate": false
+    },
+    "Trade": {
+      "TradeWaitTime": 45,
+      "MinTradeCode": 8180,
+      "MaxTradeCode": 8199,
+      "MaxDumpsPerTrade": 20,
+      "MaxDumpTradeTime": 180,
+      "DumpTradeLegalityCheck": true,
+      "ScreenOff": false,
+      "TradeAnimationMaxDelaySeconds": 90,
+      "HasBoughtSVDLC": false,
+      "CompletedSurprise": 0,
+      "CompletedDistribution": 0,
+      "CompletedTrades": 0,
+      "CompletedSeedChecks": 0,
+      "CompletedClones": 0,
+      "CompletedDumps": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "Distribution": {
+      "DistributeWhileIdle": true,
+      "SurpriseTradeWhileIdle": true,
+      "Shuffled": false,
+      "LedySpecies": 831,
+      "LedyQuitIfNoMatch": false,
+      "TradeCode": 7196,
+      "RandomCode": false,
+      "SynchronizeBots": 1,
+      "SynchronizeDelayBarrier": 0,
+      "SynchronizeTimeout": 90.0
+    },
+    "SeedCheckSWSH": {
+      "ShowAllZ3Results": false,
+      "ResultDisplayMode": 0
+    },
+    "TradeAbuse": {
+      "TradeCooldown": 0.0,
+      "EchoNintendoOnlineIDCooldown": true,
+      "CooldownAbuseEchoMention": "",
+      "TradeAbuseExpiration": 120.0,
+      "EchoNintendoOnlineIDMulti": true,
+      "EchoNintendoOnlineIDMultiRecipients": true,
+      "TradeAbuseAction": 1,
+      "BanIDWhenBlockingUser": true,
+      "MultiAbuseEchoMention": "",
+      "MultiRecipientEchoMention": "",
+      "BannedIDs": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "BlockDetectedBannedUser": true,
+      "BannedIDMatchEchoMention": "",
+      "EchoNintendoOnlineIDLedy": true,
+      "LedyAbuseEchoMention": "",
+      "AllowMultiAccountUse": false,
+      "AllowGloballyBlacklistedAccounts": false
+    },
+    "EncounterSWSH": {
+      "EncounteringType": 0,
+      "ContinueAfterMatch": 2,
+      "ScreenOff": false,
+      "CompletedEncounters": 0,
+      "CompletedLegends": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "RaidSWSH": {
+      "MinTimeToWait": 90,
+      "MinRaidCode": 8180,
+      "MaxRaidCode": 8199,
+      "RaidDescription": "",
+      "EchoPartyReady": false,
+      "FriendCode": "",
+      "NumberFriendsToAdd": 0,
+      "NumberFriendsToDelete": 0,
+      "InitialRaidsToHost": 0,
+      "RaidsBetweenAddFriends": 0,
+      "RaidsBetweenDeleteFriends": 0,
+      "RowStartAddingFriends": 1,
+      "RowStartDeletingFriends": 1,
+      "ProfileNumber": 1,
+      "ScreenOff": false,
+      "CompletedRaids": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "FossilSWSH": {
+      "Species": 0,
+      "InjectWhenEmpty": false,
+      "ContinueAfterMatch": 2,
+      "ScreenOff": false,
+      "CompletedFossils": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "Egg": {
+      "ContinueAfterMatch": 2,
+      "ScreenOff": false,
+      "CompletedEggs": 0,
+      "EmitCountsOnStatusCheck": false
+    },
+    "StopConditions": {
+      "StopOnSpecies": 0,
+      "TargetNature": 25,
+      "TargetMinIVs": "",
+      "TargetMaxIVs": "",
+      "ShinyTarget": 0,
+      "MarkOnly": false,
+      "UnwantedMarks": "",
+      "CaptureVideoClip": false,
+      "ExtraTimeWaitCaptureVideo": 10000,
+      "MatchShinyAndIV": true,
+      "MatchFoundEchoMention": ""
+    },
+    "Discord": {
+      "Token": "",
+      "CommandPrefix": "$",
+      "ModuleBlacklist": "",
+      "AsyncCommands": false,
+      "BotGameStatus": "SysBot.NET: Pokémon",
+      "BotColorStatusTradeOnly": true,
+      "HelloResponse": "Hi {0}!",
+      "RoleCanTrade": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanSeedCheck": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanClone": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleCanDump": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleRemoteControl": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleSudo": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "RoleFavored": {
+        "List": [],
+        "AllowIfEmpty": false
+      },
+      "UserBlacklist": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "ChannelWhitelist": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "GlobalSudoList": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "AllowGlobalSudo": true,
+      "LoggingChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "AbuseLoggingChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "TradeStartingChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "EchoChannels": {
+        "List": [],
+        "AllowIfEmpty": true
+      },
+      "ReturnPKMs": true,
+      "ReplyCannotUseCommandInChannel": true,
+      "ConvertPKMToShowdownSet": true,
+      "ConvertPKMReplyAnyChannel": false
+    },
+    "Twitch": {
+      "Token": "",
+      "Username": "",
+      "Channel": "",
+      "CommandPrefix": "$",
+      "MessageStart": "",
+      "ThrottleMessages": 100,
+      "ThrottleSeconds": 30.0,
+      "ThrottleWhispers": 100,
+      "ThrottleWhispersSeconds": 60.0,
+      "ReminderTagCount": 5.0,
+      "SudoList": "",
+      "UserBlacklist": "",
+      "AllowCommandsViaChannel": true,
+      "AllowCommandsViaWhisper": false,
+      "NotifyDestination": 0,
+      "TradeStartDestination": 1,
+      "TradeSearchDestination": 0,
+      "TradeFinishDestination": 0,
+      "TradeCanceledDestination": 1,
+      "DistributionCountDown": true
+    },
+    "YouTube": {
+      "ClientID": "",
+      "ClientSecret": "",
+      "ChannelID": "",
+      "CommandPrefix": "$",
+      "MessageStart": "",
+      "SudoList": "",
+      "UserBlacklist": ""
+    },
+    "Stream": {
+      "CreateAssets": false,
+      "CreateTradeStart": true,
+      "CreateTradeStartSprite": true,
+      "TrainerTradeStart": "(ID {0}) {1}",
+      "CreateOnDeck": true,
+      "OnDeckTake": 5,
+      "OnDeckSkip": 0,
+      "OnDeckSeparator": "\n",
+      "OnDeckFormat": "(ID {0}) - {3}",
+      "CreateOnDeck2": true,
+      "OnDeckTake2": 5,
+      "OnDeckSkip2": 0,
+      "OnDeckSeparator2": "\n",
+      "OnDeckFormat2": "(ID {0}) - {3}",
+      "CreateUserList": true,
+      "UserListTake": -1,
+      "UserListSkip": 0,
+      "UserListSeparator": ", ",
+      "UserListFormat": "(ID {0}) - {3}",
+      "CopyImageFile": true,
+      "TradeBlockFile": "",
+      "TradeBlockFormat": "block_{0}.png",
+      "CreateWaitedTime": true,
+      "WaitedTimeFormat": "hh\\:mm\\:ss",
+      "CreateEstimatedTime": true,
+      "EstimatedTimeFormat": "Estimated time: {0:F1} minutes",
+      "EstimatedFulfillmentFormat": "hh\\:mm\\:ss",
+      "CreateUsersInQueue": true,
+      "UsersInQueueFormat": "Users in Queue: {0}",
+      "CreateCompletedTrades": true,
+      "CompletedTradesFormat": "Completed Trades: {0}"
+    },
+    "Favoritism": {
+      "Mode": 0,
+      "Exponent": 0.777,
+      "Multiply": 0.5,
+      "MinimumFreeAhead": 15,
+      "MinimumFreeBypass": 23,
+      "MinimumFreeBypassFactor": 1.5
+    },
+    "Web": {
+      "URIEndpoint": "",
+      "AuthID": "",
+      "AuthTokenOrString": "",
+      "QueueIndex": -1,
+      "SCFeedCount": 1
+    },
+    "Twitter": {
+      "ConsumerKey": "",
+      "ConsumerSecret": "",
+      "AccessToken": "",
+      "AccessTokenSecret": "",
+      "MentionCount": 20,
+      "AntiAbuseIgnoreMentions": true,
+      "IgnorePercentage": 0.7
+    },
+    "AntiIdle": false,
+    "SkipConsoleBotCreation": false,
+    "Legality": {
+      "MGDBPath": "",
+      "GeneratePathTrainerInfo": "",
+      "GenerateOT": "SysBot",
+      "GenerateTID16": 12345,
+      "GenerateSID16": 54321,
+      "GenerateLanguage": 2,
+      "SetAllLegalRibbons": false,
+      "SetMatchingBalls": false,
+      "ForceSpecifiedBall": false,
+      "UseXOROSHIRO": true,
+      "EnableEasterEggs": false,
+      "AllowTrainerDataOverride": false,
+      "AllowBatchCommands": false,
+      "Timeout": 15,
+      "ResetHOMETracker": true
+    },
+    "Folder": {
+      "Dump": false,
+      "DistributeFolder": "",
+      "DumpFolder": ""
+    }
+  },
+  "Bots": [
+    {
+      "Connection": {
+        "Protocol": 0,
+        "IP": "192.168.0.1",
+        "Port": 6000,
+        "UseCRLF": true
+      },
+      "InitialRoutine": 2,
+      "CurrentRoutineType": 0,
+      "NextRoutineType": 0
+    }
+  ]
+}
