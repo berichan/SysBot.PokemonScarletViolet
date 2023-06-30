@@ -13,8 +13,10 @@ namespace SysBot.Pokemon.WindowsService
     public class Worker : BackgroundService
     {
         public static readonly string ServiceName = "SysBot.Pokemon.WindowsService";
+        private static readonly string ConfigPath = @"config.json";
+
         private readonly ILogger<Worker> _logger;
-        private static readonly string ConfigPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "config.json");
+
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
@@ -22,9 +24,12 @@ namespace SysBot.Pokemon.WindowsService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var executingLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var configPath = executingLocation == null ? ConfigPath : Path.Combine(executingLocation, ConfigPath);
+
             _logger.LogInformation($"{ServiceName} starting up at: {DateTimeOffset.Now}");
 
-            if (!File.Exists(ConfigPath))
+            if (!File.Exists(configPath))
             {
                 ExitNoConfig();
                 return;
@@ -34,7 +39,7 @@ namespace SysBot.Pokemon.WindowsService
             try
             {
                 _logger.LogInformation($"{ServiceName} reading config file");
-                var lines = File.ReadAllText(ConfigPath);
+                var lines = File.ReadAllText(configPath);
 
                 var cfg = JsonConvert.DeserializeObject<ProgramConfig>(lines, GetSettings()) ?? new ProgramConfig();
 
