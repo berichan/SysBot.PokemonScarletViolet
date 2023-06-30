@@ -4,11 +4,11 @@
     <TargetFrameworks>net7.0</TargetFrameworks>
     <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PKHeX.Core" Version="23.5.11" />
+    <PackageReference Include="PKHeX.Core" Version="23.6.3" />
     <ProjectReference Include="..\SysBot.Pokemon\SysBot.Pokemon.csproj" />
   </ItemGroup>
 

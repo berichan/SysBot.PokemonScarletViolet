@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.IO;
 using Newtonsoft.Json;
@@ -6,18 +6,23 @@ using Newtonsoft.Json.Serialization;
 using PKHeX.Core;
 using SysBot.Base;
 using SysBot.Pokemon.Z3;
+using SysBot.Pokemon.ConsoleApp;
 
-namespace SysBot.Pokemon.ConsoleApp
+namespace SysBot.Pokemon.WindowsService
 {
-    public static class Program
+    public class Worker : BackgroundService
     {
-        private static string ConfigPath = @"config.json";
-
-        private static void Main(string[] args)
+        public static readonly string ServiceName = "SysBot.Pokemon.WindowsService";
+        private readonly ILogger<Worker> _logger;
+        private static readonly string ConfigPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "config.json");
+        public Worker(ILogger<Worker> logger)
         {
-            Console.WriteLine("Starting up...");
-            if (args.Length > 1)
-                Console.WriteLine("This program does not support command line arguments.");
+            _logger = logger;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation($"{ServiceName} starting up at: {DateTimeOffset.Now}");
 
             if (!File.Exists(ConfigPath))
             {
@@ -25,23 +30,34 @@ namespace SysBot.Pokemon.ConsoleApp
                 return;
             }
 
+            IPokeBotRunner? env = null;
             try
             {
+                _logger.LogInformation($"{ServiceName} reading config file");
                 var lines = File.ReadAllText(ConfigPath);
+
                 var cfg = JsonConvert.DeserializeObject<ProgramConfig>(lines, GetSettings()) ?? new ProgramConfig();
+
                 PokeTradeBot.SeedChecker = new Z3SeedSearchHandler<PK8>();
-                BotContainer.RunBots(cfg);
+                env = BotContainer.RunBots(cfg, _logger);
+            }
+            catch
+            {
+                _logger.LogError($"{ServiceName} unable to start bots with saved config file. Please copy your config from the WinForms project or delete it and reconfigure.");
             }
 
-            catch
 
+            while (!stoppingToken.IsCancellationRequested)
             {
-                Console.WriteLine("Unable to start bots with saved config file. Please copy your config from the WinForms project or delete it and reconfigure.");
-                Console.ReadKey();
+                await Task.Delay(10000, stoppingToken);
+            }
+
+            if(env != null)
+            {
+                env.StopAll();
+
             }
         }
-
-
 
         private static void ExitNoConfig()
         {
@@ -63,6 +79,7 @@ namespace SysBot.Pokemon.ConsoleApp
             ContractResolver = new SerializableExpandableContractResolver(),
         };
 
+
         // https://stackoverflow.com/a/36643545
         private sealed class SerializableExpandableContractResolver : DefaultContractResolver
         {
@@ -77,22 +94,24 @@ namespace SysBot.Pokemon.ConsoleApp
 
     public static class BotContainer
     {
-        public static void RunBots(ProgramConfig prog)
+        public static IPokeBotRunner RunBots(ProgramConfig prog, ILogger<Worker> _logger)
         {
             IPokeBotRunner env = GetRunner(prog);
             foreach (var bot in prog.Bots)
             {
                 bot.Initialize();
                 if (!AddBot(env, bot, prog.Mode))
-                    Console.WriteLine($"Failed to add bot: {bot}");
+                {
+                    _logger.LogInformation($"Failed to add bot: {bot}");
+                }
+                    
             }
 
             LogUtil.Forwarders.Add((msg, ident) => Console.WriteLine($"{ident}: {msg}"));
             env.StartAll();
-            Console.WriteLine($"Started all bots (Count: {prog.Bots.Length}.");
-            Console.WriteLine("Press any key to stop execution and quit. Feel free to minimize this window!");
-            Console.ReadKey();
-            env.StopAll();
+            _logger.LogInformation($"Started all bots (Count: {prog.Bots.Length}.");
+
+            return env;
         }
 
         private static IPokeBotRunner GetRunner(ProgramConfig prog) => prog.Mode switch
@@ -136,4 +155,5 @@ namespace SysBot.Pokemon.ConsoleApp
             return true;
         }
     }
+
 }
