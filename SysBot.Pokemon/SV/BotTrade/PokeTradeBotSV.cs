@@ -208,8 +208,7 @@ namespace SysBot.Pokemon
             await Click(DUP, 0_500, token).ConfigureAwait(false);
             await Click(DUP, 0_500, token).ConfigureAwait(false);
             await Click(DUP, 0_850, token).ConfigureAwait(false);
-            if (!Hub.Config.Trade.HasBoughtSVDLC)
-                await Click(DUP, 0_850, token).ConfigureAwait(false);
+            await Click(DUP, 0_850, token).ConfigureAwait(false);
             await Click(A, 0_500, token).ConfigureAwait(false);
 
             int checks = 20;
