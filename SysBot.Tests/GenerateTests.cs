@@ -13,6 +13,7 @@ namespace SysBot.Tests
         [InlineData(Gengar)]
         [InlineData(Braviary)]
         [InlineData(Drednaw)]
+        [InlineData(Arceus)]
         public void CanGenerate(string set)
         {
             var sav = AutoLegalityWrapper.GetTrainerInfo<PK8>();
@@ -94,6 +95,17 @@ Adamant Nature
 - Liquidation 
 - Swords Dance 
 - Head Smash";
+
+        private const string Arceus =
+@"Arceus-Ghost @ Spooky Plate 
+Ability: Multitype 
+Level: 100
+EVs: 252 SpA / 4 SpD / 252 Spe 
+Timid Nature 
+- Judgment
+- Flare Blitz
+- Perish Song
+- Tera Blast";
 
         private const string Torkoal2 =
 @"Torkoal (M) @ Assault Vest
