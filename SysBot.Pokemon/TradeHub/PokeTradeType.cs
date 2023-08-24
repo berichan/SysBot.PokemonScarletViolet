@@ -6,6 +6,9 @@
         Specific,
         Seed,
         Clone,
-        Dump
+        Dump,
+        Giveaway,
+        SupportTrade,
+
     }
 }

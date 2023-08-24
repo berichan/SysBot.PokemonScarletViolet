@@ -23,6 +23,9 @@ namespace SysBot.Pokemon
         [Category(TradeCode), Description("Maximum Link Code.")]
         public int MaxTradeCode { get; set; } = 8199;
 
+        [Category(TradeConfig), Description("Sends Embeds with requested Pokemon trades.")]
+        public bool UseTradeEmbeds { get; set; } = false;
+
         [Category(Dumping), Description("Dump Trade: Dumping routine will stop after a maximum number of dumps from a single user.")]
         public int MaxDumpsPerTrade { get; set; } = 20;
 
