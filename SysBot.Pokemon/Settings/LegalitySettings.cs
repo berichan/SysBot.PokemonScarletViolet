@@ -46,8 +46,8 @@ namespace SysBot.Pokemon
         [Category(Generate), Description("Force the specified ball if legal.")]
         public bool ForceSpecifiedBall { get; set; } = false;
 
-        [Category(Generate), Description("Allow XOROSHIRO when generating Gen 8 Raid Pokémon.")]
-        public bool UseXOROSHIRO { get; set; } = true;
+        [Category(Generate), Description("Assumes level 50 sets are level 100 competitive sets.")]
+        public bool ForceLevel100for50 { get; set; }
 
         [Category(Generate), Description("Bot will create an Easter Egg Pokémon if provided an illegal set.")]
         public bool EnableEasterEggs { get; set; } = false;

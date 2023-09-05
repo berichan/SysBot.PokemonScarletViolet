@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PKHeX.Core" Version="23.7.10" />
+    <PackageReference Include="PKHeX.Core" Version="23.8.24" />
     <PackageReference Include="TweetinviAPI" Version="5.0.3" />
   </ItemGroup>
 

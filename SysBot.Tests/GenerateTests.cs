@@ -48,9 +48,9 @@ namespace SysBot.Tests
         }
 
         [Theory]
-        [InlineData(Torkoal2, 2)]
-        [InlineData(Charizard4, 4)]
-        public void TestAbilityTwitch(string set, int abilNumber)
+        [InlineData(Torkoal2, 2, 324)]
+        [InlineData(Charizard4, 4, 6)]
+        public void TestAbilityTwitch(string set, int abilNumber, ushort species)
         {
             var sav = AutoLegalityWrapper.GetTrainerInfo<PK8>();
             for (int i = 0; i < 10; i++)
@@ -60,6 +60,7 @@ namespace SysBot.Tests
                 var template = s == null ? null : AutoLegalityWrapper.GetTemplate(s);
                 var pk = template == null ? null : sav.GetLegal(template, out _);
                 pk.Should().NotBeNull();
+                pk!.Species.Should().Be(species);
                 pk!.AbilityNumber.Should().Be(abilNumber);
             }
         }
