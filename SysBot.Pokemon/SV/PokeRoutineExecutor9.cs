@@ -260,7 +260,7 @@ namespace SysBot.Pokemon
 
             var bytes = await SwitchConnection.ReadBytesAbsoluteAsync(offs, 4, token).ConfigureAwait(false);
             var portalState = BitConverter.ToUInt32(bytes, 0);
-            if (portalState >= PokePortalLoadedValue)
+            if (portalState >= PokePortalLoadedValue && portalState < (PokePortalLoadedValue+2))
                 return true;
 
             if (verbose)
