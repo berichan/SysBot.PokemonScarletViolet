@@ -60,10 +60,5 @@ namespace SysBot.Pokemon
 
         [Category(Generate), Description("Maximum time in seconds to spend when generating a set before canceling. This prevents difficult sets from freezing the bot.")]
         public int Timeout { get; set; } = 15;
-
-        // Misc
-
-        [Category(Misc), Description("Zero out HOME tracker regardless of current tracker value. Applies to user requested PKM files as well.")]
-        public bool ResetHOMETracker { get; set; } = true;
     }
 }

@@ -38,6 +38,7 @@ namespace SysBot.Pokemon
             APILegality.AllowTrainerOverride = cfg.AllowTrainerDataOverride;
             APILegality.AllowBatchCommands = cfg.AllowBatchCommands;
             APILegality.Timeout = cfg.Timeout;
+            APILegality.AllowHOMETransferGeneration = false; // Don't allow home transfer generation for SV 
         }
 
         private static void InitializeTrainerDatabase(LegalitySettings cfg)

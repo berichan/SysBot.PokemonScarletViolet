@@ -104,8 +104,6 @@ namespace SysBot.Pokemon
                     surpriseBlocked++;
                 }
 
-                if (Settings.Legality.ResetHOMETracker && dest is IHomeTrack h)
-                    h.Tracker = 0;
                 var fn = Path.GetFileNameWithoutExtension(file);
                 fn = StringsUtil.Sanitize(fn);
 
