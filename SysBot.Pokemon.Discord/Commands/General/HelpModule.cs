@@ -22,7 +22,7 @@ namespace SysBot.Pokemon.Discord
             var builder = new EmbedBuilder
             {
                 Color = new Color(114, 137, 218),
-                Description = "These are the commands you can use:",
+                Description = "These are the commands you can use: -  Xieon Test Fork",
             };
 
             var mgr = SysCordSettings.Manager;
