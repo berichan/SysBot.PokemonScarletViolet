@@ -38,7 +38,7 @@ namespace SysBot.Pokemon
             APILegality.AllowTrainerOverride = cfg.AllowTrainerDataOverride;
             APILegality.AllowBatchCommands = cfg.AllowBatchCommands;
             APILegality.Timeout = cfg.Timeout;
-            //APILegality.AllowHOMETransferGeneration = false; // Don't allow home transfer generation for SV 
+            APILegality.AllowHOMETransferGeneration = false; // Don't allow home transfer generation for SV 
         }
 
         private static void InitializeTrainerDatabase(LegalitySettings cfg)
@@ -127,9 +127,9 @@ namespace SysBot.Pokemon
 
         public static PKM GetLegal(this ITrainerInfo sav, IBattleTemplate set, out string res)
         {
-            var result = sav.GetLegalFromSet(set, out var type);
-            res = type.ToString();
-            return result;
+            var result = sav.GetLegalFromSet(set);
+            res = result.Status.ToString();
+            return result.Created;
         }
 
         public static string GetLegalizationHint(IBattleTemplate set, ITrainerInfo sav, PKM pk) => set.SetAnalysis(sav, pk);
