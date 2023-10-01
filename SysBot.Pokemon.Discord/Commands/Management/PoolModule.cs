@@ -36,7 +36,7 @@ namespace SysBot.Pokemon.Discord
             {
                 var lines = pool.Files.Select((z, i) => $"{i + 1:00}: {z.Key} = {(Species)z.Value.RequestInfo.Species}");
                 var msg = string.Join("\n", lines);
-
+                
                 var embed = new EmbedBuilder();
                 embed.AddField(x =>
                 {

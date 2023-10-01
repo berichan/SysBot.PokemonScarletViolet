@@ -22,7 +22,7 @@ namespace SysBot.Pokemon.Discord
             var builder = new EmbedBuilder
             {
                 Color = new Color(114, 137, 218),
-                Description = "These are the commands you can use:",
+                Description = "XGC Custom Susbot - Forked SysbotBase>BeriChan",
             };
 
             var mgr = SysCordSettings.Manager;
