@@ -4,13 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 
+//I'm going to be using a lot of libraries and subliraries that we not initially used in the original project source code -
+//These will be required to use parts of my code
+using Discord.WebSocket; // We need this subclass to be able to attach deleted Pk9 files and restore them.
+using Discord.Net; // This is to handle deleted message exceptions
+using System.Net; // We need this to catch exceptions for deleted messages
+
+
 namespace SysBot.Pokemon.Discord
 {
     public class OwnerModule : SudoModule
     {
         [Command("addSudo")]
         [Summary("Adds mentioned user to global sudo")]
-        [RequireOwner]
+        [RequireSudo]
         // ReSharper disable once UnusedParameter.Global
         public async Task SudoUsers([Remainder] string _)
         {
@@ -22,19 +29,23 @@ namespace SysBot.Pokemon.Discord
 
         [Command("removeSudo")]
         [Summary("Removes mentioned user from global sudo")]
-        [RequireOwner]
+        [RequireSudo]
         // ReSharper disable once UnusedParameter.Global
         public async Task RemoveSudoUsers([Remainder] string _)
         {
+            /* 
+            // We commented this out to prevent the wrong user getting sudo, and removing other sudo users before someone can execute the kill command
             var users = Context.Message.MentionedUsers;
             var objects = users.Select(GetReference);
             SysCordSettings.Settings.GlobalSudoList.RemoveAll(z => objects.Any(o => o.ID == z.ID));
             await ReplyAsync("Done.").ConfigureAwait(false);
+            */
+            await ReplyAsync("Sudo must be removed in person from console currently").ConfigureAwait(false);
         }
 
         [Command("addChannel")]
         [Summary("Adds a channel to the list of channels that are accepting commands.")]
-        [RequireOwner]
+        [RequireSudo] // Changed this to require sudo perms instead of owner
         // ReSharper disable once UnusedParameter.Global
         public async Task AddChannel()
         {
@@ -43,9 +54,53 @@ namespace SysBot.Pokemon.Discord
             await ReplyAsync("Done.").ConfigureAwait(false);
         }
 
+        /*
+        This ccommand isn't complete yet - 
+        */
+        [Command("undelete")]
+        [Summary("Undeletes a specific message by ID.")]
+        [RequireSudo]
+        public async Task UndeleteMessageAsync(ulong messageId)
+        {
+        // Attempt to get the message by its ID using the Channel.
+        var channel = Context.Channel as ITextChannel;
+    
+        if (channel != null)
+        {
+             var message = await channel.GetMessageAsync(messageId).ConfigureAwait(false);
+
+             if (message != null)
+             {
+                // Assuming you want to post the undeleted message with author and attachments as files if they exist.
+                var undeleteMessage = $"{Context.User.Mention} Restoring Deleted message by {message.Author} : {message.Content}";  
+
+                if (message.Attachments.Any())
+                 {
+                    var attachments = message.Attachments.Select(a => a.Url);
+                    undeleteMessage += $"\nAttachments:\n{string.Join("\n", attachments)}";
+                 }
+
+            await channel.SendMessageAsync(undeleteMessage).ConfigureAwait(false);
+        }
+
+        else
+        {
+            await ReplyAsync("The specified message does not exist or is not accessible.").ConfigureAwait(false);
+        }
+    }
+    
+    else
+    {
+        await ReplyAsync("This command can only be used in a text channel.").ConfigureAwait(false);
+    }
+}
+
+
+
+
         [Command("removeChannel")]
         [Summary("Removes a channel from the list of channels that are accepting commands.")]
-        [RequireOwner]
+        [RequireSudo] // Changed to allow sudo to execut
         // ReSharper disable once UnusedParameter.Global
         public async Task RemoveChannel()
         {
@@ -105,7 +160,7 @@ namespace SysBot.Pokemon.Discord
         [Command("sudoku")]
         [Alias("kill", "shutdown")]
         [Summary("Causes the entire process to end itself!")]
-        [RequireOwner]
+        [RequireSudo]
         // ReSharper disable once UnusedParameter.Global
         public async Task ExitProgram()
         {
