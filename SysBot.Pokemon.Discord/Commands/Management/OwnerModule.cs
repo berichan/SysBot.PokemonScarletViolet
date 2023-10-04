@@ -1,15 +1,16 @@
-﻿using Discord.Commands;
+﻿//Organized into System Libraries and sub Libraries, and Discord
 using System;
 using System.Linq;
+using System.IO;   //we need this for local file manipulation 
 using System.Threading.Tasks;
-using Discord;
 
 //I'm going to be using a lot of libraries and subliraries that we not initially used in the original project source code -
 //These will be required to use parts of my code
 using Discord.WebSocket; // We need this subclass to be able to attach deleted Pk9 files and restore them.
 using Discord.Net; // This is to handle deleted message exceptions
 using System.Net; // We need this to catch exceptions for deleted messages
-
+using Discord.Commands;
+using Discord;
 
 namespace SysBot.Pokemon.Discord
 {
@@ -21,6 +22,7 @@ namespace SysBot.Pokemon.Discord
         // ReSharper disable once UnusedParameter.Global
         public async Task SudoUsers([Remainder] string _)
         {
+           
             var users = Context.Message.MentionedUsers;
             var objects = users.Select(GetReference);
             SysCordSettings.Settings.GlobalSudoList.AddIfNew(objects);
@@ -54,9 +56,7 @@ namespace SysBot.Pokemon.Discord
             await ReplyAsync("Done.").ConfigureAwait(false);
         }
 
-        /*
-        This ccommand isn't complete yet - 
-        */
+        //This ccommand isn't complete yet - 
         [Command("undelete")]
         [Summary("Undeletes a specific message by ID.")]
         [RequireSudo]
@@ -95,9 +95,6 @@ namespace SysBot.Pokemon.Discord
     }
 }
 
-
-
-
         [Command("removeChannel")]
         [Summary("Removes a channel from the list of channels that are accepting commands.")]
         [RequireSudo] // Changed to allow sudo to execut
@@ -109,24 +106,47 @@ namespace SysBot.Pokemon.Discord
             await ReplyAsync("Done.").ConfigureAwait(false);
         }
 
+
+        //Command edited to include double verification check - if user has sudo, and is in owner list
         [Command("leave")]
         [Alias("bye")]
         [Summary("Leaves the current server.")]
-        [RequireOwner]
+        [RequireSudo]
         // ReSharper disable once UnusedParameter.Global
         public async Task Leave()
         {
-            await ReplyAsync("Goodbye.").ConfigureAwait(false);
-            await Context.Guild.LeaveAsync().ConfigureAwait(false);
+            ulong userId = Context.User.Id;
+             // Read the contents of owners.txt
+            string ownersFileContent = File.ReadAllText("parameters/owners.txt");
+            // Split the content by commas to get an array of owner Discord IDs
+            string[] ownerIds = ownersFileContent.Split(',');
+            if (ownerIds.Contains(userId.ToString()))
+            {
+                await ReplyAsync($"Goodbye - Exiting the Guild <@{userId}>").ConfigureAwait(false);
+                await Context.Guild.LeaveAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyAsync("You are a sudo user, but not the owner. You cannot execute this command.");
+            }
         }
 
-        [Command("leaveguild")]
+        // Changed to Sudo from Owner, and require Sudo and id match in parameter.tct to execute. 
+        [Command("leaveguild")] 
         [Alias("lg")]
         [Summary("Leaves guild based on supplied ID.")]
-        [RequireOwner]
+        [RequireSudo] //changed to require sudo and match id in parameters/owner
         // ReSharper disable once UnusedParameter.Global
         public async Task LeaveGuild(string userInput)
         {
+            
+            ulong userId = Context.User.Id;
+            // Read the contents of owners.txt
+            string ownersFileContent = File.ReadAllText("parameters/owners.txt");
+            // Split the content by commas to get an array of owner Discord IDs
+            string[] ownerIds = ownersFileContent.Split(',');
+            if (ownerIds.Contains(userId.ToString()))
+            {
             if (!ulong.TryParse(userInput, out ulong id))
             {
                 await ReplyAsync("Please provide a valid Guild ID.").ConfigureAwait(false);
@@ -142,21 +162,48 @@ namespace SysBot.Pokemon.Discord
 
             await ReplyAsync($"Leaving {guild}.").ConfigureAwait(false);
             await guild.LeaveAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyAsync("You are a sudo user, but not the owner. You cannot execute this command.");
+            }
+            
+            
+            
+
         }
 
+        // Changed to invlude double verification method
         [Command("leaveall")]
         [Summary("Leaves all servers the bot is currently in.")]
-        [RequireOwner]
+        [RequireSudo] 
         // ReSharper disable once UnusedParameter.Global
         public async Task LeaveAll()
         {
-            await ReplyAsync("Leaving all servers.").ConfigureAwait(false);
-            foreach (var guild in Context.Client.Guilds)
+
+            ulong userId = Context.User.Id;
+             // Read the contents of owners.txt
+            string ownersFileContent = File.ReadAllText("parameters/owners.txt");
+            // Split the content by commas to get an array of owner Discord IDs
+            string[] ownerIds = ownersFileContent.Split(',');
+            if (ownerIds.Contains(userId.ToString()))
             {
-                await guild.LeaveAsync().ConfigureAwait(false);
+                await ReplyAsync("You are the owner. You can execute this command.");
+                await ReplyAsync("Leaving all servers.").ConfigureAwait(false);
+                foreach (var guild in Context.Client.Guilds)
+                {
+                    await guild.LeaveAsync().ConfigureAwait(false);
+                }
             }
+            else
+            {
+                await ReplyAsync("You are a sudo user, but not the owner. You cannot execute this command.");
+            }
+            
+
         }
 
+        // Changed to Sudo + List verification method
         [Command("sudoku")]
         [Alias("kill", "shutdown")]
         [Summary("Causes the entire process to end itself!")]
@@ -164,8 +211,21 @@ namespace SysBot.Pokemon.Discord
         // ReSharper disable once UnusedParameter.Global
         public async Task ExitProgram()
         {
-            await Context.Channel.EchoAndReply("Shutting down... goodbye! **Bot services are going offline.**").ConfigureAwait(false);
-            Environment.Exit(0);
+            ulong userId = Context.User.Id;
+             // Read the contents of owners.txt
+            string ownersFileContent = File.ReadAllText("parameters/owners.txt");
+            // Split the content by commas to get an array of owner Discord IDs
+            string[] ownerIds = ownersFileContent.Split(',');
+            if (ownerIds.Contains(userId.ToString()))
+            {
+                await ReplyAsync("You are the owner. You can execute this command.");
+                await Context.Channel.EchoAndReply("Shutting down... goodbye! **Bot services are going offline.**").ConfigureAwait(false);
+                Environment.Exit(0);
+            }
+            else
+            {
+                await ReplyAsync("You are a sudo user, but not the owner. You cannot execute this command.");
+            }
         }
 
         private RemoteControlAccess GetReference(IUser channel) => new()

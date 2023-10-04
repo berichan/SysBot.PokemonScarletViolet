@@ -78,9 +78,9 @@ namespace SysBot.Pokemon.Discord
         }
 
 
-[Command("owner")]
+[Command("permcheck")]
 [RequireSudo] // Use RequireSudo attribute
-public async Task YourCommandAsync()
+public async Task PermCheck()
 {
     ulong userId = Context.User.Id;
 
