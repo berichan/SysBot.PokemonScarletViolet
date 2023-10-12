@@ -112,10 +112,13 @@ namespace SysBot.Pokemon
             return true;
         }
 
-        private async Task<bool> ConnectIfNotConnected(CancellationToken token)
+        private async Task<bool> ConnectIfNotConnected(CancellationToken token, bool aPressFirst)
         {
             if (!await IsConnected(token).ConfigureAwait(false))
             {
+                if (aPressFirst)
+                    for (int i = 0; i < 3; i++)
+                        await Click(A, 0_500, token).ConfigureAwait(false);
                 if (!await ReturnToOverworld(token).ConfigureAwait(false))
                     return false;
 
@@ -148,7 +151,7 @@ namespace SysBot.Pokemon
             if (!await IsGameRunning(token).ConfigureAwait(false))
                 await StartGame(Hub.Config, token).ConfigureAwait(false);
 
-            if (!await ConnectIfNotConnected(token).ConfigureAwait(false))
+            if (!await ConnectIfNotConnected(token, verboseLogging).ConfigureAwait(false))
                 return false;
 
             if (await IsKeyboardOpen(token).ConfigureAwait(false))
@@ -226,7 +229,7 @@ namespace SysBot.Pokemon
             if (!await IsConnected(token).ConfigureAwait(false))
             {
                 Log("Not connected, trying again...");
-                await ConnectIfNotConnected(token).ConfigureAwait(false);
+                await ConnectIfNotConnected(token, false).ConfigureAwait(false);
                 await RestartGameIfCantTrade(true, code, token).ConfigureAwait(false);
             }
 
