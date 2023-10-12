@@ -5,29 +5,57 @@ using System.IO;   //we need this for local file manipulation
 using System.Threading.Tasks;
 
 //I'm going to be using a lot of libraries and subliraries that we not initially used in the original project source code -
-//These will be required to use parts of my code
-using Discord.WebSocket; // We need this subclass to be able to attach deleted Pk9 files and restore them.
+//These will be required to use parts of my codeusing Discord.WebSocket; // We need this subclass to be able to attach deleted Pk9 files and restore them.
 using Discord.Net; // This is to handle deleted message exceptions
 using System.Net; // We need this to catch exceptions for deleted messages
 using Discord.Commands;
 using Discord;
+using System.Collections.Generic;
 
 namespace SysBot.Pokemon.Discord
 {
     public class OwnerModule : SudoModule
     {
+
+        private List<ulong> ownerIds; // Declare a field to store the loaded owner IDs
+       
+
         [Command("addSudo")]
         [Summary("Adds mentioned user to global sudo")]
         [RequireSudo]
         // ReSharper disable once UnusedParameter.Global
         public async Task SudoUsers([Remainder] string _)
         {
-           
+            ownerIds = LoadOwnerIdsFromFile();
+
             var users = Context.Message.MentionedUsers;
             var objects = users.Select(GetReference);
             SysCordSettings.Settings.GlobalSudoList.AddIfNew(objects);
             await ReplyAsync("Done.").ConfigureAwait(false);
         }
+   
+        private List<ulong> LoadOwnerIdsFromFile()    
+        {
+        // Define the path to your owners.txt file
+        string ownersFilePath = Path.Combine("parameters", "owners.txt");
+
+        if (File.Exists(ownersFilePath))
+        {
+            // Read the file and split it by commas to get a list of owner IDs
+            string[] ownerIdsStr = File.ReadAllText(ownersFilePath).Split(',');
+            // Convert the strings to ulong and return the list of owner IDs
+            List<ulong> ownerIds = ownerIdsStr.Select(str => ulong.Parse(str.Trim())).ToList();
+            return ownerIds;
+         }
+    else
+    {
+        // If the file doesn't exist, create it and make it empty
+        File.WriteAllText(ownersFilePath, string.Empty);
+
+        // Return an empty list since there are no owner IDs yet
+        return new List<ulong>();;
+    }
+}
 
         [Command("removeSudo")]
         [Summary("Removes mentioned user from global sudo")]
@@ -35,16 +63,27 @@ namespace SysBot.Pokemon.Discord
         // ReSharper disable once UnusedParameter.Global
         public async Task RemoveSudoUsers([Remainder] string _)
         {
-            /* 
-            // We commented this out to prevent the wrong user getting sudo, and removing other sudo users before someone can execute the kill command
-            var users = Context.Message.MentionedUsers;
-            var objects = users.Select(GetReference);
-            SysCordSettings.Settings.GlobalSudoList.RemoveAll(z => objects.Any(o => o.ID == z.ID));
-            await ReplyAsync("Done.").ConfigureAwait(false);
-            */
-            await ReplyAsync("Sudo must be removed in person from console currently").ConfigureAwait(false);
+            
+            ulong userId = Context.User.Id;
+            // Read the contents of owners.txt
+            string ownersFileContent = File.ReadAllText("parameters/owners.txt");
+            // Split the content by commas to get an array of owner Discord IDs
+            string[] ownerIds = ownersFileContent.Split(',');
+            if (ownerIds.Contains(userId.ToString()))
+            {
+                var users = Context.Message.MentionedUsers;
+                var objects = users.Select(GetReference);
+                SysCordSettings.Settings.GlobalSudoList.RemoveAll(z => objects.Any(o => o.ID == z.ID));
+                await ReplyAsync("Done -Owner Removed Sudo from User ").ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyAsync("You are a sudo user, but not the owner. You cannot execute this command.");
+            }
         }
 
+
+        // Sudo  required
         [Command("addChannel")]
         [Summary("Adds a channel to the list of channels that are accepting commands.")]
         [RequireSudo] // Changed this to require sudo perms instead of owner
@@ -56,7 +95,7 @@ namespace SysBot.Pokemon.Discord
             await ReplyAsync("Done.").ConfigureAwait(false);
         }
 
-        //This ccommand isn't complete yet - 
+        //This ccommand isn't complete yet - Sudo command only currently
         [Command("undelete")]
         [Summary("Undeletes a specific message by ID.")]
         [RequireSudo]
@@ -95,19 +134,7 @@ namespace SysBot.Pokemon.Discord
     }
 }
 
-        [Command("removeChannel")]
-        [Summary("Removes a channel from the list of channels that are accepting commands.")]
-        [RequireSudo] // Changed to allow sudo to execut
-        // ReSharper disable once UnusedParameter.Global
-        public async Task RemoveChannel()
-        {
-            var obj = GetReference(Context.Message.Channel);
-            SysCordSettings.Settings.ChannelWhitelist.RemoveAll(z => z.ID == obj.ID);
-            await ReplyAsync("Done.").ConfigureAwait(false);
-        }
-
-
-        //Command edited to include double verification check - if user has sudo, and is in owner list
+        // Sudo + Owners.txt Verification method implemented
         [Command("leave")]
         [Alias("bye")]
         [Summary("Leaves the current server.")]
@@ -131,11 +158,12 @@ namespace SysBot.Pokemon.Discord
             }
         }
 
-        // Changed to Sudo from Owner, and require Sudo and id match in parameter.tct to execute. 
+        // Sudo + Owners.txt Verification method implemented
         [Command("leaveguild")] 
         [Alias("lg")]
         [Summary("Leaves guild based on supplied ID.")]
-        [RequireSudo] //changed to require sudo and match id in parameters/owner
+        [RequireSudo] 
+        //changed to require sudo and match id in parameters/owner
         // ReSharper disable once UnusedParameter.Global
         public async Task LeaveGuild(string userInput)
         {
@@ -173,11 +201,11 @@ namespace SysBot.Pokemon.Discord
 
         }
 
-        // Changed to invlude double verification method
+        // Sudo + Owners.txt Verification method implemented
         [Command("leaveall")]
         [Summary("Leaves all servers the bot is currently in.")]
         [RequireSudo] 
-        // ReSharper disable once UnusedParameter.Global
+        // ReSharper disable once UnusedParameter.Globa
         public async Task LeaveAll()
         {
 
@@ -203,7 +231,7 @@ namespace SysBot.Pokemon.Discord
 
         }
 
-        // Changed to Sudo + List verification method
+        // Sudo + Owners.txt Verification method implemented
         [Command("sudoku")]
         [Alias("kill", "shutdown")]
         [Summary("Causes the entire process to end itself!")]
