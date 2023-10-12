@@ -41,4 +41,4 @@ steps:
   inputs:
     PathtoPublish: 'SysBot.Pokemon.WinForms\bin\x64\Release\net7.0-windows'
     ArtifactName: SysBot-x64
-  condition: succeededOrFailed()
+  condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
