@@ -34,7 +34,13 @@ namespace SysBot.Pokemon.Discord
                     AddLogChannel(a, ach.ID, NewAntiAbuse.Instance.Forwarders);
             }
 
-            LogUtil.LogInfo("Added logging to Discord channel(s) on Bot startup.", "Discord");
+            //updated the logging information to display me the updated build information. 
+            //LogModule.cs is currently updated manually to reflect build changes. 
+            LogUtil.LogInfo("ADDED LOGGING TO DISCORD CHANNELS ON BOT STARTUP: ", "Discord"); // Original Discord Notification of logging
+            LogUtil.LogInfo("IF YOU ARE NOT THE DEVELOPER OF THIS BOT YOU CAN IGNORE OR REMOVE THE NEXT LINE", "Discord"); // Disclaimer
+            LogUtil.LogInfo("[Current Build Berichan Bot(9/25/23 repo push merged into fork] [Xieon's Fork of Berichans Fork of the Sysbot code] - [PkHexCore:9/25/23] [ALM: +DLC -HomeTracker==0] [BuildLocation: X_AW_LT].", "Discord"); //updated each build updated to reflect correct information. 
+            
+
         }
 
         [Command("logHere")]
