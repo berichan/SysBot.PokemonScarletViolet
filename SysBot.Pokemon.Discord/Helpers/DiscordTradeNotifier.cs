@@ -106,26 +106,14 @@ namespace SysBot.Pokemon.Discord
             
             
             
-            // Declare local variables that derive their values from the Data.IV_() fields.
+            //stats
             var atk = Data.IV_ATK;
             var def = Data.IV_DEF;
             var spd = Data.IV_SPD;
             var spe = Data.IV_SPE;
             var spa = Data.IV_SPA;
             var hp = Data.IV_HP;
-            var perfect = $"";
-            var total = Data.IVTotal;
-            var offby = 186 - total;
-
-            if(total == 186)
-            {
-                perfect = $":star: Perfect IV's :star";
-            }
-            else
-            {
-                perfect = $"This pokemon is missing {offby} to be perfect IV";
-            }
-           //moves
+            //moves
             var m1 = Data.Move1;
             var m2 = Data.Move2;
             var m3 = Data.Move3;
@@ -139,9 +127,36 @@ namespace SysBot.Pokemon.Discord
             // string? ballEmbed = null;
             // string? noball = null;
 
-            /*
+            
             Dictionary<int, string> ballEmotes = new()
 
+            {
+                { 1, ":ball_Master:" },
+                { 2, ":ball_Ultra:" },
+                { 3, ":ball_Great:" },
+                { 4, ":ball_Poke:" },
+                { 5, ":ball_net:" },
+                { 6, ":ball_dive:" },
+                { 7, ":ball_nest:" },
+                { 8, ":ball_repeat:" },
+                { 9, ":ball_timer:" },
+                { 10, ":ball_luxury:" },
+                { 11, ":ball_pre:" },
+                { 12, ":ball_dusk:" },
+                { 13, ":ball_heal:" },
+                { 14, ":ball_quick:" },
+                { 15, ":ball_fast:" },
+                { 16, ":ball_Level:" },
+                { 17, ":ball_lure:" },
+                { 18, ":ball_heavy:" },
+                { 19, ":ball_love:" },
+                { 20, ":ball_friend:" },
+                { 21, ":ball_moon:" },
+                { 22, ":ball_dream:" },
+                { 23, ":ball_beast:" },
+                { 24, ":ball_safari:" },
+                { 25, ":ball_cherish:" }
+            };
 
             
 
@@ -157,12 +172,17 @@ if (ballEmotes.TryGetValue(ballValue, out string ballEmoteFromDictionary)) // Th
     
     ballEmbed = ballEmoteFromDictionary;
 }
+
+
 else
 {
     // Handle the case where Data.Ball does not match any known value
     ballEmbed = noball;
 }
-*/
+
+var ot = Data.OT_Name;
+var tid = Data.DisplayTID;
+var stats = $"ATK:{atk} / DEF:{def} / SpD:{spd} / SpA:{spa} / Spe:{spe} / HP:{hp}";
 
 
                 // Held Item Code Block
@@ -185,6 +205,7 @@ else
                 var stats = $"ATK:{atk} / DEF:{def} / SpD:{spd} / SpA:{spa} / Spe:{spe} / HP:{hp}";       //build the stats straings
                 // Check if Data.IsShiny is true and set the shiny string accordingly
                 string shiny = Data.IsShiny ? ":sparkles:" : "";
+
     
 
                         // If the pokemon traded {(Species)tradedToUser} matches the name of a pokemon in our folder we display that image in the embed - 
@@ -193,6 +214,7 @@ else
                         if (File.Exists(imagePath))     
                         {
                             var embed = new EmbedBuilder();
+
                             var colon = $":";
                             var dream = $"ball_dream";
                             _ = $"{colon}{dream}{colon}";
@@ -202,14 +224,16 @@ else
                           var moveList = Data.Moves.ToList<ushort>;
 
                             embed.WithTitle("XGC MEMBER TRADE REQUEST COMPLETED");
+
                             embed.AddField("Trainer", Trader.Mention, true); // Display trainer's name in an inline field
-                            embed.AddField("Received Pokémon", $"{shiny}{(Species)tradedToUser} {holding}", true); // Display received Pokémon with or without shiny indicator
-                            embed.AddField("Trainer IG Info", $"OT: {ot} / TID: {tid}",true);
+                            embed.AddField("Received Pokémon", $"{shiny}{(Species)tradedToUser}", true); // Display received Pokémon with or without shiny indicator
+                            embed.AddField("Trainer IG Info", $"OT: {ot} / TID: {tid}");
                             embed.AddField("IV Spread", $"{stats}", true);
+
                             embed.AddField("Ability:",$"{ability}", true);
-                           
+    
                             //If the ball requested is in XGC Server - how do we display it as an image in the embed? 
-/*
+                            /*
                             if(Data.Ball== 7 )//  https://cdn.discordapp.com/emojis/1089614882132996257.webp?size=160&quality=lossless   Nest ball test
                             { 
                                 ballEmbed =  $":nest_ball: https://cdn.discordapp.com/emojis/1089614882132996257.webp?size=160&quality=lossless";
@@ -220,18 +244,16 @@ else
                             }
                             else if(Data.Ball ==1)   
                             {
-                                ballEmbed = $"Your Pokemon should be in a Master Ball"; // new format test 
+                                ballEmbed = $"Your Pokemon should be in a Master Ball {colon}{dream}{colon}"; // new format test 
                             }         
                             else
                             {
                                 ballEmbed = $"That balls image is not currently available - you recieved a {Data.Ball}";  //Displays the number of the ball if no image.
-                                
                             }
                             embed.AddField("BALL", ballEmbed);
-  */
+                            */
 
-                            // Displays a heart on the embed thanking users for using the bot
-                            embed.AddField("Thanks for being a member", ":heart:"); 
+                            embed.AddField("Thanks for being a member", ":heart:"); // Display a heart thanking the user for using the bot
                             // Attach the POKEMON.PNG file to the embed as an image
                             embed.WithImageUrl($"attachment://{imageName}");
                             // Send the embed with the attached image in tbalhe same channel where the command was sent
