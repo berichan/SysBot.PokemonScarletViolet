@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="PKHeX.Core" Version="23.9.25" />
+    <PackageReference Include="PKHeX.Core" Version="23.12.19" />
     <ProjectReference Include="..\SysBot.Base\SysBot.Base.csproj" />
-    <PackageReference Include="System.Text.Json" Version="6.0.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="deps\" />
   </ItemGroup>
@@ -21,5 +18,4 @@
       <HintPath>deps\PKHeX.Core.AutoMod.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>
