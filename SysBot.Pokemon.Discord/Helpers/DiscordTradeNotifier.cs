@@ -89,6 +89,8 @@ namespace SysBot.Pokemon.Discord
 
             //////////////////////////////////////////////////////////////
             //BEGINNING OF THE FULL  EMBED CODE ADDED TO DISCORDTRADENOTIFIER.CS
+            
+            
             // Define the path to the folder containing PNG files
             var folderPath = @"C:\Users\Xieon\Desktop\repositories\test\SysBot.PokemonScarletViolet\SysBot.Pokemon.WinForms\bin\x64\Debug\net7.0-windows\pkmnpic";
             // Create the full path to the PNG file based on {(Species)tradedToUser}
@@ -122,11 +124,12 @@ namespace SysBot.Pokemon.Discord
             // Define a dictionary to map integer values to emote strings
 
             // not used currently string? ballEmote = null; // Declare ballEmote outside of the if statement
-            string? ballEmbed = null;
-            string? noball = null;
+            // string? ballEmbed = null;
+            // string? noball = null;
 
             
             Dictionary<int, string> ballEmotes = new()
+
             {
                 { 1, ":ball_Master:" },
                 { 2, ":ball_Ultra:" },
@@ -181,8 +184,28 @@ var ot = Data.OT_Name;
 var tid = Data.DisplayTID;
 var stats = $"ATK:{atk} / DEF:{def} / SpD:{spd} / SpA:{spa} / Spe:{spe} / HP:{hp}";
 
-// Check if Data.IsShiny is true and set the shiny string accordingly
-string shiny = Data.IsShiny ? ":sparkles:" : "";
+
+                // Held Item Code Block
+                string holding = $"";
+                var item = Data.HeldItem;
+                if(item < 0)
+                {
+                    holding = "Pokemon not holding an item";
+                }
+                else
+                {
+                    //holding = Data.Name.HeldItem;
+
+                    holding = $"Pokemong is holding {item} ";
+                }
+
+                var ability = Data.Ability;
+                var ot = Data.OT_Name;               // The IGN of the trainer who requested a trade. 
+                var tid = Data.DisplayTID;          //The TID as it appears in game. 
+                var stats = $"ATK:{atk} / DEF:{def} / SpD:{spd} / SpA:{spa} / Spe:{spe} / HP:{hp}";       //build the stats straings
+                // Check if Data.IsShiny is true and set the shiny string accordingly
+                string shiny = Data.IsShiny ? ":sparkles:" : "";
+
     
 
                         // If the pokemon traded {(Species)tradedToUser} matches the name of a pokemon in our folder we display that image in the embed - 
@@ -191,16 +214,24 @@ string shiny = Data.IsShiny ? ":sparkles:" : "";
                         if (File.Exists(imagePath))     
                         {
                             var embed = new EmbedBuilder();
-                            embed.WithTitle("XGC HAS COMPLETED A MEMBER TRADE REQUEST");
+
+                            var colon = $":";
+                            var dream = $"ball_dream";
+                            _ = $"{colon}{dream}{colon}";
+
+
+                          //// Test Code for the Moves. 
+                          var moveList = Data.Moves.ToList<ushort>;
+
+                            embed.WithTitle("XGC MEMBER TRADE REQUEST COMPLETED");
+
                             embed.AddField("Trainer", Trader.Mention, true); // Display trainer's name in an inline field
                             embed.AddField("Received Pokémon", $"{shiny}{(Species)tradedToUser}", true); // Display received Pokémon with or without shiny indicator
                             embed.AddField("Trainer IG Info", $"OT: {ot} / TID: {tid}");
                             embed.AddField("IV Spread", $"{stats}", true);
-                            embed.AddField("MOVES #'s", $"{m1}\n{m2}\n{m3}\n{m4}");
-                            embed.AddField("Breloom?", $"Breloom override is off, if it was on would you have gotten Breloom instead?{breloom}");
 
-
-                           
+                            embed.AddField("Ability:",$"{ability}", true);
+    
                             //If the ball requested is in XGC Server - how do we display it as an image in the embed? 
                             /*
                             if(Data.Ball== 7 )//  https://cdn.discordapp.com/emojis/1089614882132996257.webp?size=160&quality=lossless   Nest ball test
@@ -238,6 +269,8 @@ string shiny = Data.IsShiny ? ":sparkles:" : "";
                 embed.AddField("Received Pokémon", $"{(Species)tradedToUser}", true); // Display received Pokémon 
                 embed.AddField("Trainer Info",$"OT:{ot} / TID:{tid}");
                 embed.AddField("IV Spread",$"{stats}",true);
+                embed.AddField("Missing Image",$"Note to Staff {(Species)tradedToUser} is missing an image", true); // let staff know that there's a missing database image. 
+                embed.AddField("Ability:",$"{ability}", true);
                 //embed.AddField("Ball",$"{ballemote}",true);
                 embed.AddField("Thanks for being a member", ":heart:"); // Display a heart thanking the user for using the bot
                 await CommandSentChannel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false); // Send the embed in the same channel where the command was sent
