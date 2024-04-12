@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Platforms>AnyCPU</Platforms>
     <Nullable>enable</Nullable>
     <LangVersion>11</LangVersion>
@@ -13,7 +13,7 @@
 		<PackageReference Include="Google.Apis.Core" Version="1.55.0" />
 		<PackageReference Include="Google.Apis.YouTube.v3" Version="1.55.0.2449" />
 		<PackageReference Include="Google.Apis.YouTubePartner.v1" Version="1.35.1.1334" />
-		<PackageReference Include="PKHeX.Core" Version="23.9.25" />
+		<PackageReference Include="PKHeX.Core" Version="23.12.19" />
 	</ItemGroup>
 
 	<ItemGroup>

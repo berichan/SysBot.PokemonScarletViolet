@@ -39,6 +39,6 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: SysBot-x64'
   inputs:
-    PathtoPublish: 'SysBot.Pokemon.WinForms\bin\x64\Release\net7.0-windows'
+    PathtoPublish: 'SysBot.Pokemon.WinForms\bin\x64\Release\net8.0-windows'
     ArtifactName: SysBot-x64
   condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
