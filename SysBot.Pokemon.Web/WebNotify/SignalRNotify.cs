@@ -70,7 +70,7 @@ namespace SysBot.Pokemon.Web
                 var paramsToSend = new Dictionary<string, string>();
                 paramsToSend.Add("seedState", r.Type.ToString().WebSafeBase64Encode());
                 paramsToSend.Add("seed", r.Seed.ToString("X16").WebSafeBase64Encode());
-                paramsToSend.Add("ot", Result.OT_Name.WebSafeBase64Encode());
+                paramsToSend.Add("ot", Result.OriginalTrainerName.WebSafeBase64Encode());
                 paramsToSend.Add("dex", Result.Species.ToString().WebSafeBase64Encode());
 
                 var shinyState = "None";

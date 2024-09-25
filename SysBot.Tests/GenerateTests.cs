@@ -7,7 +7,7 @@ namespace SysBot.Tests
 {
     public class GenerateTests
     {
-        static GenerateTests() => AutoLegalityWrapper.EnsureInitialized(new LegalitySettings());
+        static GenerateTests() => AutoLegalityWrapper.EnsureInitialized(new SysBot.Pokemon.LegalitySettings());
 
         [Theory]
         [InlineData(Gengar)]

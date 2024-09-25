@@ -46,7 +46,7 @@ namespace SysBot.Pokemon
                 }
                 else
                 {
-                    sb.AppendLine($"OT: beri");
+                    sb.AppendLine($"OT: {OT}");
                     sb.AppendLine("Language: " + ((LanguageID)lang == LanguageID.Japanese ? "English" : "Japanese"));
                 }
 
@@ -74,12 +74,12 @@ namespace SysBot.Pokemon
             if (toRet == null)
                 return null;
 
-            if (toRet.Version == gamever)
+            if (toRet.Version == (GameVersion)gamever)
                 return (T)toRet;
             else
             {
                 var toRetEdit = toRet.Clone();
-                toRetEdit.Version = gamever;
+                toRetEdit.Version = (GameVersion)gamever;
                 var la = new LegalityAnalysis(toRetEdit);
                 if (la.Valid)
                     return (T)toRetEdit;

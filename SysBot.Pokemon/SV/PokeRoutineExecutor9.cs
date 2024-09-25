@@ -56,7 +56,7 @@ namespace SysBot.Pokemon
             if (sav != null)
             {
                 // Update PKM to the current save's handler data
-                pkm.Trade(sav);
+                pkm.UpdateHandler(sav);
                 pkm.RefreshChecksum();
             }
 

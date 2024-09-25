@@ -46,8 +46,7 @@ namespace SysBot.Pokemon
             if (sav != null)
             {
                 // Update PKM to the current save's handler data
-                DateTime Date = DateTime.Now;
-                pkm.Trade(sav, Date.Day, Date.Month, Date.Year);
+                pkm.UpdateHandler(sav);
                 pkm.RefreshChecksum();
             }
             var ofs = GetBoxSlotOffset(box, slot);
@@ -127,7 +126,7 @@ namespace SysBot.Pokemon
             var sav = new SAV8SWSH();
             var info = sav.MyStatus;
             var read = await Connection.ReadBytesAsync(TrainerDataOffset, TrainerDataLength, token).ConfigureAwait(false);
-            read.CopyTo(info.Data, 0);
+            read.CopyTo(info.Data);
             return sav;
         }
 
