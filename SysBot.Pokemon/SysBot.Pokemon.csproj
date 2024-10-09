@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="PKHeX.Core" Version="24.7.27" />
     <ProjectReference Include="..\SysBot.Base\SysBot.Base.csproj" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="deps\" />
