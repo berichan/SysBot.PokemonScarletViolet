@@ -46,8 +46,9 @@ namespace SysBot.Pokemon
                 }
                 else
                 {
-                    sb.AppendLine($"OT: {OT}");
-                    sb.AppendLine("Language: " + ((LanguageID)lang == LanguageID.Japanese ? "English" : "Japanese"));
+
+                    sb.AppendLine($"OT: SusSpore");
+                    sb.AppendLine("Language: " + ((LanguageID)lang == LanguageID.English ? "English" : "English"));
                 }
 
                 var content = sb.ToString();

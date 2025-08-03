@@ -469,14 +469,15 @@ namespace SysBot.Pokemon
             var tradePartner = await FetchIDFromTradeOffset(token).ConfigureAwait(false);
             tradePartner.NSAID = tradePartnerNID;
 
-            bool multi = false;
-            bool IsSafe = poke.Trainer.ID == 0 || NewAntiAbuse.Instance.LogUser(tradePartner.IDHash, tradePartnerNID, tradePartner.TrainerName, poke.Trainer.TrainerName, Hub.Config.TradeAbuse.MultiAbuseEchoMention, out multi);
-            if ((!IsSafe && !AbuseSettings.AllowGloballyBlacklistedAccounts) || (multi && AbuseSettings.AllowMultiAccountUse))
-            {
-                Log($"Found known abuser: {tradePartner.TrainerName}-{tradePartner.SID}-{tradePartner.TID} ({poke.Trainer.TrainerName}) (NID: {tradePartnerNID}) origin: {poke.Notifier.IdentifierLocator}");
-                poke.SendNotification(this, $"Your savedata is associated with a known abuser. Consider not being an abuser, and you will no longer see this message.");
-                return PokeTradeResult.SuspiciousActivity;
-            }
+           // Comment Out the tradeabuse global list for testing purposes - 
+           // bool multi = false;
+           // bool IsSafe = poke.Trainer.ID == 0 || NewAntiAbuse.Instance.LogUser(tradePartner.IDHash, tradePartnerNID, tradePartner.TrainerName, poke.Trainer.TrainerName, Hub.Config.TradeAbuse.MultiAbuseEchoMention, out multi);
+           // if ((!IsSafe && !AbuseSettings.AllowGloballyBlacklistedAccounts) || (multi && AbuseSettings.AllowMultiAccountUse))
+           // {
+           //     Log($"Found known abuser: {tradePartner.TrainerName}-{tradePartner.SID}-{tradePartner.TID} ({poke.Trainer.TrainerName}) (NID: {tradePartnerNID}) origin: {poke.Notifier.IdentifierLocator}");
+           //     poke.SendNotification(this, $"Your savedata is associated with a known abuser. Consider not being an abuser, and you will no longer see this message.");
+           //     return PokeTradeResult.SuspiciousActivity;
+           // }
 
             Log($"Found trading partner: {tradePartner.TrainerName}-{tradePartner.TID}-{tradePartner.SID} ({poke.Trainer.TrainerName}) (NID: {tradePartnerNID}) [CODE:{poke.Code:00000000}]");
 
@@ -732,7 +733,7 @@ namespace SysBot.Pokemon
 
                 var report = la.Report();
                 Log(report);
-                poke.SendNotification(this, "This Pokémon is not legal per PKHeX's legality checks. I am forbidden from cloning this. Exiting trade.");
+                poke.SendNotification(this, "Xieon's Gaming Corner doesn't support the proliferation of illegal pokemon. This Pokémon is not legal per PKHeX's Legality Scan - . Please do not request illegal pokemon in trades from XGC or you may lose your bot privlideges - You can obtain clean pk9 files for use with trading with XGC's server bots at the servers public library, and bot-resources sections of the discord server. **CLONING CANCELLED/EXITING TRADE**.");
                 poke.SendNotification(this, report);
 
                 return (offered, PokeTradeResult.IllegalTrade);

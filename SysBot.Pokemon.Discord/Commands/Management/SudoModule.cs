@@ -1,9 +1,14 @@
-﻿using Discord.Commands;
+﻿// System Libraries being used
 using System;
+using System.IO; // added systtem.io for file manipulation
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+//Discord Libraries
 using Discord;
+using Discord.Commands;
+using Discord.Net;    //commented out until we use it, which eventually we weill. 
 
 namespace SysBot.Pokemon.Discord
 {
@@ -71,6 +76,41 @@ namespace SysBot.Pokemon.Discord
             SysCordSettings.Settings.UserBlacklist.RemoveAll(z => IDs.Any(o => o == z.ID));
             await ReplyAsync("Done.").ConfigureAwait(false);
         }
+
+        [Command("permcheck")]
+        [RequireSudo] // Use RequireSudo attribute
+        public async Task PermCheck()
+        {
+         ulong userId = Context.User.Id;
+        // Read the contents of owners.txt
+        string ownersFileContent = File.ReadAllText("parameters/owners.txt");
+        // Split the content by commas to get an array of owner Discord IDs
+        string[] ownerIds = ownersFileContent.Split(',');
+        if (ownerIds.Contains(userId.ToString()))
+        {
+            // You can execute the command logic here for owners
+            await ReplyAsync("You are the owner. You can execute this command.");
+        }
+        else
+        {
+            // Provide a message for sudo users who are not owners
+            await ReplyAsync("You are a sudo user, but not the owner. You cannot execute this command.");
+        }
+        }
+
+
+        // Sudo Verification required only
+        [Command("removeChannel")]
+        [Summary("Removes a channel from the list of channels that are accepting commands.")]
+        [RequireSudo] // Changed to allow sudo to execute
+        // ReSharper disable once UnusedParameter.Global
+        public async Task RemoveChannel()
+        {
+            var obj = GetReference((IUser)Context.Message.Channel);
+            SysCordSettings.Settings.ChannelWhitelist.RemoveAll(z => z.ID == obj.ID);
+            await ReplyAsync("Done.").ConfigureAwait(false);
+        }
+
 
         [Command("blacklistSummary")]
         [Alias("printBlacklist", "blacklistPrint")]
