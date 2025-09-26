@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="PKHeX.Core" Version="25.9.25" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.11" />
+    <PackageReference Include="System.Text.Json" Version="9.0.9" />
     <ProjectReference Include="..\SysBot.Pokemon\SysBot.Pokemon.csproj" />
   </ItemGroup>
 
