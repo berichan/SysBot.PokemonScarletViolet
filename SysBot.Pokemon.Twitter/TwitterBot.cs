@@ -78,7 +78,7 @@ namespace SysBot.Pokemon.Twitter
             if (tweetBody.StartsWith("trade "))
             {
                 var set = tweetBody.Substring("trade ".Length);
-                var success = TwitterCommandsHelper.AddToWaitingList(set, tweet.CreatedBy.ScreenName, out var msg, out var pk8);
+                var success = TwitterCommandsHelper<PK8>.AddToWaitingList(set, tweet.CreatedBy.ScreenName, out var msg, out var pk8);
 
                 if (success)
                 {

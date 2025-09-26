@@ -64,7 +64,7 @@ namespace SysBot.Pokemon.Discord
 
         public void SendNotification(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info, string message)
         {
-            Trader.SendMessageAsync(message.TrimStart("SSR")).ConfigureAwait(false);
+            Trader.SendMessageAsync(message.TrimStart("SSR".ToCharArray())).ConfigureAwait(false);
         }
 
         public void SendNotification(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info, PokeTradeSummary message)

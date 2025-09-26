@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <LangVersion>11</LangVersion>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="PKHeX.Core" Version="24.7.27" />
+    <PackageReference Include="PKHeX.Core" Version="25.9.25" />
     <ProjectReference Include="..\SysBot.Base\SysBot.Base.csproj" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>

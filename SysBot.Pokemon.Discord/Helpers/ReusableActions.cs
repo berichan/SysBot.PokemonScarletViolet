@@ -14,7 +14,7 @@ namespace SysBot.Pokemon.Discord
     {
         public static async Task SendPKMAsync(this IMessageChannel channel, PKM pkm, string msg = "")
         {
-            var tmp = Path.Combine(Path.GetTempPath(), Util.CleanFileName(pkm.FileName));
+            var tmp = Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(pkm.FileName));
             File.WriteAllBytes(tmp, pkm.DecryptedPartyData);
             await channel.SendFileAsync(tmp, msg).ConfigureAwait(false);
             File.Delete(tmp);
@@ -22,7 +22,7 @@ namespace SysBot.Pokemon.Discord
 
         public static async Task SendPKMAsync(this IUser user, PKM pkm, string msg = "")
         {
-            var tmp = Path.Combine(Path.GetTempPath(), Util.CleanFileName(pkm.FileName));
+            var tmp = Path.Combine(Path.GetTempPath(), PathUtil.CleanFileName(pkm.FileName));
             File.WriteAllBytes(tmp, pkm.DecryptedPartyData);
             await user.SendFileAsync(tmp, msg).ConfigureAwait(false);
             File.Delete(tmp);

@@ -22,7 +22,6 @@ namespace SysBot.Pokemon
 
         private static void InitializeAutoLegality(LegalitySettings cfg)
         {
-            InitializeCoreStrings();
             EncounterEvent.RefreshMGDB(cfg.MGDBPath);
             InitializeTrainerDatabase(cfg);
             InitializeSettings(cfg);
@@ -38,7 +37,6 @@ namespace SysBot.Pokemon
             APILegality.AllowTrainerOverride = cfg.AllowTrainerDataOverride;
             APILegality.AllowBatchCommands = cfg.AllowBatchCommands;
             APILegality.Timeout = cfg.Timeout;
-            APILegality.AllowHOMETransferGeneration = false; // Don't allow home transfer generation for SV 
         }
 
         private static void InitializeTrainerDatabase(LegalitySettings cfg)
@@ -49,15 +47,12 @@ namespace SysBot.Pokemon
 
             // Seed the Trainer Database with enough fake save files so that we return a generation sensitive format when needed.
             var fallback = GetDefaultTrainer(cfg);
-            for (byte generation = 1; generation <= PKX.Generation; generation++)
+            for (byte generation = 1; generation <= Latest.Generation; generation++)
             {
-                var versions = GameUtil.GetVersionsInGeneration(generation, PKX.Version);
+                var versions = GameUtil.GetVersionsInGeneration(generation, Latest.Version);
                 foreach (var version in versions)
                     RegisterIfNoneExist(fallback, generation, version);
             }
-            // Manually register for LGP/E since Gen7 above will only register the 3DS versions.
-            RegisterIfNoneExist(fallback, 7, GameVersion.GP);
-            RegisterIfNoneExist(fallback, 7, GameVersion.GE);
         }
 
         private static SimpleTrainerInfo GetDefaultTrainer(LegalitySettings cfg)
@@ -86,32 +81,34 @@ namespace SysBot.Pokemon
                 OT = fallback.OT,
                 Generation = generation,
             };
-            var exist = TrainerSettings.GetSavedTrainerData(version, generation, fallback);
+            var exist = TrainerSettings.GetSavedTrainerData(generation, version, fallback);
             if (exist is SimpleTrainerInfo) // not anything from files; this assumes ALM returns SimpleTrainerInfo for non-user-provided fake templates.
                 TrainerSettings.Register(fallback);
         }
 
-        private static void InitializeCoreStrings()
+        public static bool CanBeTraded(this PKM pk)
         {
-            var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName[..2];
-            LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
-            LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
-            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
-            ParseSettings.ChangeLocalizationStrings(GameInfo.Strings.movelist, GameInfo.Strings.specieslist);
-        }
-
-        public static bool CanBeTraded(this PKM pkm)
-        {
-            if (pkm.IsNicknamed && StringsUtil.IsSpammyString(pkm.Nickname))
-                return false;
-            if (StringsUtil.IsSpammyString(pkm.OriginalTrainerName) && !IsFixedOT(new LegalityAnalysis(pkm).EncounterOriginal, pkm))
-                return false;
-            return !FormInfo.IsFusedForm(pkm.Species, pkm.Form, pkm.Format);
+            if (pk.IsNicknamed)
+            {
+                Span<char> nick = stackalloc char[pk.TrashCharCountNickname];
+                int len = pk.LoadString(pk.NicknameTrash, nick);
+                nick = nick[..len];
+                if (StringsUtil.IsSpammyString(nick))
+                    return false;
+            }
+            {
+                Span<char> ot = stackalloc char[pk.TrashCharCountTrainer];
+                int len = pk.LoadString(pk.OriginalTrainerTrash, ot);
+                ot = ot[..len];
+                if (StringsUtil.IsSpammyString(ot) && !IsFixedOT(new LegalityAnalysis(pk).EncounterOriginal, pk))
+                    return false;
+            }
+            return !FormInfo.IsFusedForm(pk.Species, pk.Form, pk.Format);
         }
 
         public static bool IsFixedOT(IEncounterTemplate t, PKM pkm) => t switch
         {
-            IFixedTrainer { IsFixedTrainer: true } tr => true,
+            IFixedTrainer { IsFixedTrainer: true } => true,
             MysteryGift g => !g.IsEgg && g switch
             {
                 WC9 wc9 => wc9.GetHasOT(pkm.Language),
@@ -128,23 +125,30 @@ namespace SysBot.Pokemon
         public static ITrainerInfo GetTrainerInfo<T>() where T : PKM, new()
         {
             if (typeof(T) == typeof(PK8))
-                return TrainerSettings.GetSavedTrainerData(GameVersion.SWSH, 8);
+                return TrainerSettings.GetSavedTrainerData(GameVersion.SWSH);
             if (typeof(T) == typeof(PB8))
-                return TrainerSettings.GetSavedTrainerData(GameVersion.BDSP, 8);
+                return TrainerSettings.GetSavedTrainerData(GameVersion.BDSP);
             if (typeof(T) == typeof(PA8))
-                return TrainerSettings.GetSavedTrainerData(GameVersion.PLA, 8);
+                return TrainerSettings.GetSavedTrainerData(GameVersion.PLA);
             if (typeof(T) == typeof(PK9))
-                return TrainerSettings.GetSavedTrainerData(GameVersion.SV, 9);
+                return TrainerSettings.GetSavedTrainerData(GameVersion.SV);
 
             throw new ArgumentException("Type does not have a recognized trainer fetch.", typeof(T).Name);
         }
 
-        public static ITrainerInfo GetTrainerInfo(byte gen) => TrainerSettings.GetSavedTrainerData(gen, 0);
+        public static ITrainerInfo GetTrainerInfo(byte gen) => TrainerSettings.GetSavedTrainerData(gen);
 
         public static PKM GetLegal(this ITrainerInfo sav, IBattleTemplate set, out string res)
         {
             var result = sav.GetLegalFromSet(set);
-            res = result.Status.ToString();
+            res = result.Status switch
+            {
+                LegalizationResult.Regenerated => "Regenerated",
+                LegalizationResult.Failed => "Failed",
+                LegalizationResult.Timeout => "Timeout",
+                LegalizationResult.VersionMismatch => "VersionMismatch",
+                _ => "",
+            };
             return result.Created;
         }
 

@@ -16,14 +16,6 @@ namespace SysBot.Pokemon
             { typeof(PK9), "SV" },
         };
 
-        public static string? CollateSpecies(this PKM[] pokes)
-        {
-            if (pokes == null || pokes.Length < 1)
-                return null;
-            string toRet = string.Concat(pokes.Select(z => $", {(Species)z.Species}"));
-            return toRet.TrimStart(", ");
-        }
-
         public static string? FileExtensionToGame(this Type switchPKMType)
         {
             if (!GameTypeNameMap.ContainsKey(switchPKMType))

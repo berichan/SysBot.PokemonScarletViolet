@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SysBot.Pokemon.Twitter
 {
-    public static class TwitterCommandsHelper
+    public static class TwitterCommandsHelper<T> where T : PKM, new()
     {
         // Helper functions for commands
         public static bool AddToWaitingList(string setstring, string username, out string msg, out PKM pkm)
@@ -37,7 +37,7 @@ namespace SysBot.Pokemon.Twitter
                 return false;
             }
 
-            var sav = AutoLegalityWrapper.GetTrainerInfo(PKX.Generation);
+            var sav = AutoLegalityWrapper.GetTrainerInfo<T>();
             pkm = sav.GetLegal(template, out var result);
 
             if (!pkm.CanBeTraded())

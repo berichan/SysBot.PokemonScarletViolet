@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <TargetFrameworks>net9.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>SysBot.Pokemon.WinForms</PackageId>
     <Company>Project Pokémon</Company>
@@ -12,7 +12,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <StartupObject>SysBot.Pokemon.WinForms.Program</StartupObject>
     <AssemblyName>SysBot</AssemblyName>
-    <LangVersion>11</LangVersion>
+    <LangVersion>13</LangVersion>
     <Version>01.00.00</Version>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="PKHeX.Core" Version="24.7.27" />
+    <PackageReference Include="PKHeX.Core" Version="25.9.25" />
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
 
